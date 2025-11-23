@@ -94,12 +94,12 @@ if file_loaded:
     income_growth = st.slider("Annual Income Growth Rate", 0.00, 0.10, 0.03, 0.005)
     interest = st.slider("Savings Interest Rate (p.a.)", 0.00, 0.10, 0.04, 0.005)
     property_growth = st.slider("Property Growth Rate (p.a.)", 0.00, 0.15, 0.075, 0.005)
-    yr_max = st.number_input("Max Years to Simulate", min_value=10, max_value=500, value=250)
+    yr_max = st.number_input("Max Years to Simulate (don't really need to change this - this just says after the simulation as run for X years, it'll assume it's not possible and move on)", min_value=10, max_value=1000, value=250)
 
     st.subheader("Income Range (Pre-Tax / Gross)")
     single_income_min = st.number_input("Min Single Pre-Tax Income", value=100000.0, step=10000.0)
     single_income_max = st.number_input("Max Single Pre-Tax Income", value=500000.0, step=10000.0)
-    income_step = st.number_input("Income Step", value=50000.0, step=10000.0)
+    income_step = st.number_input("Income Step (ie at default of 50k, we'll see results for 100k, 150k, 200k, ..., 500k)", value=50000.0, step=10000.0)
 
     # List of pre-tax incomes (this is what we display everywhere)
     pre_tax_incomes = np.arange(single_income_min, single_income_max + income_step, income_step)
