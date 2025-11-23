@@ -4,9 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import math
 
-# -------------------------------
 # Data cleaning utilities
-# -------------------------------
 def clean_money(val):
     if pd.isna(val):
         return np.nan
@@ -19,11 +17,9 @@ def clean_money(val):
     except:
         return np.nan
 
-# -------------------------------
-# Tax calculation (Australian 2024–25 resident tax rates + 2% Medicare levy already baked in)
-# -------------------------------
+# Tax calculation + 2% Medicare levy
 def net_tax(gross_annual):
-    taxable = gross_annual * 0.98  # Approximate Medicare levy
+    taxable = gross_annual * 0.98 
     if gross_annual <= 18200:
         tax = 0
     elif gross_annual <= 45000:
@@ -36,9 +32,7 @@ def net_tax(gross_annual):
         tax = 51638 + (gross_annual - 180000) * 0.45
     return gross_annual - tax
 
-# -------------------------------
 # Main calculation: years to save for 20% deposit
-# -------------------------------
 def years_to_save(savings, weekly_income_net, price, income_growth, interest, property_growth, yr_max, savings_rate):
     current_price = price
     current_savings = savings
@@ -59,12 +53,10 @@ def years_to_save(savings, weekly_income_net, price, income_growth, interest, pr
 
     return np.nan
 
-# -------------------------------
 # Streamlit UI
-# -------------------------------
 st.title("Property Saving Time Calculator (Interactive)")
 
-# Load fixed CSV
+# Load CSV
 file_path = "property_data.csv"
 try:
     df = pd.read_csv(file_path)
@@ -161,9 +153,7 @@ if file_loaded:
         run_simulation(single_net_annual, "single")
         run_simulation(dual_net_annual,   "dual")
 
-        # ========================
         # Histograms
-        # ========================
         st.subheader("Distribution of Years to Save")
         n_plots = len(yr_results)
         cols = 3
@@ -189,18 +179,14 @@ if file_loaded:
         plt.tight_layout()
         st.pyplot(fig)
 
-        # ========================
         # Summary Table
-        # ========================
         st.subheader("Summary Table (All figures based on Pre-Tax Income)")
         summary_df = pd.DataFrame(results_summary).T
         summary_df = summary_df[["Pre-Tax Income", "Household", "Attainable Suburbs",
                                  "Unattainable Suburbs", "Mean Years (attainable only)", "Median Years"]]
         st.dataframe(summary_df.sort_values("Pre-Tax Income"))
 
-        # ========================
         # Unattainable Suburbs Bar Chart
-        # ========================
         st.subheader("Unattainable Suburbs by Pre-Tax Income")
         total_suburbs = len(df_valid)
 
@@ -229,9 +215,7 @@ if file_loaded:
         plt.tight_layout()
         st.pyplot(fig2)
 
-        # ========================
         # Extended Stats Table
-        # ========================
         st.subheader("Detailed Statistics (Attainable Suburbs Only)")
         extra = {}
         for label, data in yr_results.items():
